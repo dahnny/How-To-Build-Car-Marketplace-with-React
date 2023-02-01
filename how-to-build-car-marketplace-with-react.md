@@ -740,7 +740,7 @@ Start by calling the `contract.methods.getCarLength().call()` method, which retu
 
 You will then create an empty array called `_cars` that will be used to store the car objects. It uses a for loop to iterate through the cars stored in the smart contract, starting from index 0 up to the `carLength` value.
 
-For each iteration, the function creates a new promise called `_car` that retrieves the car information for the current index by calling the `contract.methods.getCar(index).call()` method. This method returns an array of values, such as owner, carName, carDescription, carImage, price, isUsed, isSale, and isBought. These values are then stored in an object that is passed to the resolve function of the promise, along with the index.
+For each iteration, the function creates a new promise called `_car` that retrieves the car information for the current index by calling the `contract.methods.getCar(index).call()` method. This method returns an array of values, such as owner, carName, carDescription, carImage, price, isUsed, and isBought. These values are then stored in an object that is passed to the resolve function of the promise, along with the index.
 
 The `_car` promise is then pushed to the `_cars` array. After the loop is finished, wait for all promises in the `_cars` array to be resolved by calling `await Promise.all(_cars)`, this will make sure that all the cars have been retrieved before moving on. Then it's updating the state with the cars array, by calling `setCars(cars);`
 
