@@ -27,7 +27,7 @@ This tutorials exposes you to how building a simple fullstack dapp (decentralize
 - Have a basic understanding of **[React](https://react.org)**. Knowledge on JSX, props, state and hooks.
 
 ## Requirements
-- **[NodeJS](https://nodejs.org/en/download)** from V12.or higher
+- **[NodeJS](https://nodejs.org/en/download)** from V12 or higher
 - A code editor or text editor. **[VSCode](https://code.visualstudio.com/download)** is recommended
 - A terminal. **[Git Bash](https://git-scm.com/downloads)** is recommended
 - An Internet Browser and good internet connection
@@ -40,7 +40,7 @@ Here is a screenshot of what our dapp would look like
 
 ![image](images/1.png)
 
-_In this tutorial, I have the assumption that the person following has a basic understanding of React and has react already downloaded and fully setup. If you don't, I would highly suggest you have a grasp of React. You can start **[here](https://reactjs.org/docs/getting-started.html)**._
+_In this tutorial, I have the assumption that the person following has a basic understanding of React and has React already downloaded and fully setup. If you don't, I would highly suggest you have a grasp of React. You can start **[here](https://reactjs.org/docs/getting-started.html)**._
 
 ## Smart Contract Development
 
@@ -59,14 +59,14 @@ Starting out in the first line, you include a statement that specifies the licen
 pragma solidity >=0.7.0 <0.9.0;
 ```
 
-This license governs how the code can be used, and it is important to ensure that the correct license is used to avoid any legal issues. A resource such as SPDX can be used to help identify a suitable license.
+This license governs how the code can be used, and it is important to ensure that the correct license is used to avoid any legal issues. A resource such as [SPDX](https://spdx.dev/) can be used to help identify a suitable license.
 
 To ensure the smart contract can run without any issues and is protected by a license, it's important to indicate the version of the compiler and the license it uses. This can be done by specifying the compiler version with the `pragma` keyword, and the license used, by including a statement that specifies the license at the beginning of the contract code.
 
 
 Next up, we define an `IERC20Token` interface which enables us to interact with the celo stablecoin (cUSD). 
 
-```js
+```solidity
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.7.0 <0.9.0;
@@ -94,7 +94,7 @@ You can find more information on how to use these functions and events in the Ce
 
 Following this, You define your smart contract by giving it a name. In our case our contract name is `CarDealer`. You can name it anything you want but ensure you keep it descriptive.
 
-```js
+```soliodity
 contract CarDealer{
     
     uint internal carLength = 0;
@@ -102,7 +102,7 @@ contract CarDealer{
   ...
 ```
 
-In the next line, you define a state variable carLength, this is going to keep track of the cars in our contract. It is of a `uint` type which means it can only store integer values. [(Learn more about data types in solidity)](https://docs.soliditylang.org/en/latest/types.html)
+In the next line, you define a state variable `carLength`, this is going to keep track of the cars in our contract. It is of a `uint` type which means it can only store integer values. [(Learn more about data types in solidity)](https://docs.soliditylang.org/en/latest/types.html)
 We also define the visibility of our variable to `internal` which means it cannot be accessed from external smart contracts or addresses and can only be modified within the smart contract. ([Learn more about visiblity](https://docs.soliditylang.org/en/latest/contracts.html#visibility-and-getters))
 
 Next, To interact with the cUSD ERC-20 token on the Celo alfajores test network, you need to know the address of the token.
@@ -110,7 +110,7 @@ Next, To interact with the cUSD ERC-20 token on the Celo alfajores test network,
 
 After defining the single variables used in the contract, you want to create a "model" for a car, give the car its properties and group variables together.
 
-```js
+```solidity
     struct Car{
         address payable owner;
         string carName;
@@ -127,23 +127,23 @@ After defining the single variables used in the contract, you want to create a "
 To do this, you would require a struct data type with the keyword `struct` and give it multiple properties. ([Learn about structs here](https://docs.soliditylang.org/en/latest/types.html#structs))
 
 For this tutorial, these would be the variables that you would store in the struct:
-1. owner - This would store the address of the owner of a particular car as all cars in the marketplace would be owned by someone. It is of the address type
-2. carName - This stores the name of the car. It is of type string
-3. carImage - stores the url of the car. Type string
-4. carDescription - car description.  Type string
-5. price - This stores the price of the car. Its a number so its of type uint
-6. isUsed - This would store if the car is used or not. It would be a boolean type. True or false
-7. isSale - This keeps track of when a car is on sale or not. Boolean type
-8. isBought - This keeps track of when a car has been bought. Boolean type
+1. `owner` - This would store the address of the owner of a particular car as all cars in the marketplace would be owned by someone. It is of the address type
+2. `carName` - This stores the name of the car. It is of type string
+3. `carImage` - Stores the url of the car. Type string
+4. `carDescription` - Car description.  Type string
+5. `price` - This stores the price of the car. Its a number so its of type uint
+6. `isUsed` - This would store if the car is used or not. It would be a boolean type. True or false
+7. `isSale` - This keeps track of when a car is on sale or not. Boolean type
+8. `isBought` - This keeps track of when a car has been bought. Boolean type
 
 
 To handle multiple cars, a mapping is needed where you can access the value of a car through their key. Just like dictionaries in python or objects in Javascript.
-To create a mapping, you use the keyword `mapping` and assign a key type to a value type. In this case, your key would be an integer and the value would be the struct Car we just created.
+To create a mapping, you use the keyword `mapping` and assign a key type to a value type. In this case, our key would be an integer and the value would be the struct Car we just created.
 
 
 In the next section, you will define a function to add the car to the smart contract.
 
-```js
+```solidity
     function setCar(
         string memory _carName,
         string memory _carDescription,
@@ -168,15 +168,15 @@ You have to specify the parameters type in the function. In this case, we need t
 
 Next, associate the key carLength with a new Car structure in the cars mapping.
 
-The first field of the struct is the address of the owner who can receive payments. The msg.sender function returns the address of the entity that initiated the call and is capable of receiving payments. This address will be stored as the owner's address.
+The first field of the struct is the address of the owner who can receive payments. The `msg.sender` function returns the address of the entity that initiated the call and is capable of receiving payments. This address will be stored as the owner's address.
 You also need to assign values to the other variables using the provided parameters.
 
-The isBought value should be set to false, because on creating a car alias, the car default state should be for sale.
+The `isBought` value should be set to false, because on creating a car alias, the car default state should be for sale.
 
 
 Up next, you would create a function that would read the products created in the preceding function.
 
-```js
+```solidity
     function getCar (uint _index) public view returns (
         address payable,
         string memory,
@@ -199,14 +199,14 @@ Up next, you would create a function that would read the products created in the
     }
 ```
 
-This function will carry a parameter of _index to be able to get a particular car alias. You also need to specify the variables you will return with the function. 
+This function will carry a parameter of `_index` to be able to get a particular car alias. You also need to specify the variables you will return with the function. 
 In this case, it would be a tuple corresponding to the variables declared in the struct. 
 The function needs to return the address of the owner, the strings and the boolean values of `isUsed` and `isBought`
 
 
 Proceeding, you need to create a function that enables a user buy a car from your contract. 
 
-```js
+```solidity
     function buyCar(uint _index) public  payable {
         require(cars[_index].isBought == false,"Not for Sale");
         require(
@@ -226,18 +226,18 @@ Proceeding, you need to create a function that enables a user buy a car from you
     }
 ```
 
-The "buyCar" function, which is public and payable, takes in an index of type uint as a parameter.
+The `buyCar()` function, which is public and payable, takes in an index of type uint as a parameter.
 
 This function uses the require function to ensure that the cUSD transaction is successful. It then uses the ERC-20 token interface and the stored address to call the transferFrom method to transfer cUSD.
 
-The first parameter is the address of the sender, accessed using the msg.sender method, the second parameter is the recipient of the transaction, which is the owner of the car at the given index, and the final parameter is the price of the car at the given index. 
+The first parameter is the address of the sender, accessed using the `msg.sender` method, the second parameter is the recipient of the transaction, which is the owner of the car at the given index, and the final parameter is the price of the car at the given index. 
 
-If the transaction is unsuccessful, an error message will be displayed. If successful, the owner of the car then becomes the sender of the transaction and the status of isBought changes to `true`.
+If the transaction is unsuccessful, an error message will be displayed. If successful, the owner of the car then becomes the sender of the transaction and the status of `isBought` changes to `true`.
 
 
 In the final section of the smart contract, you would create a function to sell a car and also get the total cars
 
-```js
+```solidity
     function sellCar(uint _index) public {
         require(msg.sender == cars[_id].owner,"Accessible only to the owner");
         cars[_index].isBought = false;
@@ -249,18 +249,18 @@ In the final section of the smart contract, you would create a function to sell 
     }
 ```
 
-The `sellCar` function is a public function because we need it to be accessed outside the contract.
+The `sellCar()` function is a public function because we need it to be accessed outside the contract.
 
 The function will use the require function to make sure that the sender of this transaction is actually the owner of the car if not return an error.
 
-If that succeeds, then change the isBought function to false so others now  have the opportunity to buy it.
+If that succeeds, then change the `isBought` function to false so others now  have the opportunity to buy it.
 
 Next in line, create a public function that will iterate over the stored cars in the frontend and return the total number of cars.
 
 Here is the full code:
 
 
-```js
+```solidity
 // SPDX-License-Identifier: MIT  
 
 pragma solidity >=0.7.0 <0.9.0;
@@ -372,7 +372,7 @@ contract CarDealer{
 ## Contract Deployment
 
 To deploy the contract, we would need:
-1. [CeloExtensionWallet]((https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmpmkbdnfelcpgckmpcaemjcdh?hl=en))
+1. [CeloExtensionWallet](https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmpmkbdnfelcpgckmpcaemjcdh?hl=en)
 2. [ Celo Faucet](https://celo.org/developers/faucet) 
 3. Celo Remix Plugin
 
@@ -380,12 +380,12 @@ Download the Celo Extension Wallet from the Google chrome store using the link a
 
 After downloading and creating your wallet, you will need to fund it using the Celo Faucet. Copy the address to your wallet, click the link to the faucet above and the paste the address into the text field and confirm.
 
-Next up, on remix, download and activate the celo plugin from the plugin manager. Connect your wallet and deploy your contract.
+Next up, on Remix IDE, download and activate the celo plugin from the plugin manager. Connect your wallet and deploy your contract.
 
 
 ## Frontend Development
 
-To get setup with building your react dapp, you would have to setup your new react project. 
+To get setup with building your react dapp, you would have to setup your new React project. 
 1.  - Run this on your terminal
 ```bash 
     npx create-react-app cardealer
@@ -460,7 +460,7 @@ In the next step of the tutorial, you will begin building the foundation of your
 
 First off, you would add the following folder name `assets2` to the public folder. This has some CSS properties and images that you would be using to enable you build your dapp swiftly. ([Download it here](https://github.com/dahnny/CeloDealer/tree/main/public/assets2))
 
-Open the index.html file located in the public folder of your project, and let's begin.
+Open the `index.html` file located in the public folder of your project, and let's begin.
 
 ```html
 <!DOCTYPE html>
@@ -554,8 +554,8 @@ Up next, you would add the body of the html and add specific script tags which w
 ```
 
 ## App.js
-The App.js file is the starting point for the React frontend of the application. The App component is responsible for the layout and organization of the other components. It includes the App component, which acts as a container for all other components. 
-At the beginning of the App.js file, necessary libraries, components and hooks are imported.
+The `App.js` file is the starting point for the React frontend of the application. The App component is responsible for the layout and organization of the other components. It includes the App component, which acts as a container for all other components. 
+At the beginning of the `App.js` file, necessary libraries, components and hooks are imported.
 
 ```js
 import React, { useState, useEffect } from 'react';
@@ -570,16 +570,16 @@ const contractAddress = "0x83dce46765c4420b8E93eE1b2e9Fc79d254E9212";
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";
 ```
 
-You will start  off by importing standard react hooks like `useState` and `useEffect` from the react library.
+You will start  off by importing standard React hooks like `useState` and `useEffect` from the React library.
 
-Then we import the web3, contractkit and bignumber js objects from their libraries.
+Then we import the `web3`, `contractkit` and `bignumber.js` objects from their libraries.
 
-Celo's operations often deal with numbers that are too large for Javascript to handle. To handle these numbers, we will use bignumber.js.
+Celo's operations often deal with numbers that are too large for Javascript to handle. To handle these numbers, we will use `bignumber.js`.
 
 Create a variable called `ERC20_DECIMALS` and set its value to 18. By default, the ERC20 interface uses 18 decimal places.
 
 On Remix, after the deployment of your contract, you will find the address to that contract which you need to interact with the functionality in your smart contract.
-Create a variable called `contractAddress` and assign it the contract address gotten from remix.
+Create a variable called `contractAddress` and assign it the contract address gotten from Remix.
 
 Create a variable called `cUSDContractAddress` for the cUSD contract address.
 
@@ -590,14 +590,14 @@ import erc20 from './abis/irc.abi.json';
 ```
 In the src folder, create an `abis` folder. This folder would contain two files. 
 
-The first file would be called `car.abi.json`. It would be used to store the abi for your contract.
-The second file would be called `irc.abi.json`. It would store the abi for the IERC20 interface.
+The first file would be called `car.abi.json`. It would be used to store the ABI for your contract.
+The second file would be called `irc.abi.json`. It would store the ABI for `IERC20` interface.
 
 To interact with a smart contract that is deployed in bytecode, an interface known as the ABI (Application Binary Interface) is required for the contractKit to interpret the bytecode. ([Learn about ABIs](https://docs.soliditylang.org/en/develop/abi-spec.html))
 
 The ABI allows for the execution of functions and the reading of data. When using Remix to compile a contract, the ABI is also generated in the form of a JSON file. 
 
-This JSON file should be copied and saved into the "car.abi.json" file within the "abis" folder of the project.
+This JSON file should be copied and saved into the `car.abi.json` file within the `abis` folder of the project.
 
 
 ```js
@@ -614,7 +614,7 @@ For the next lines, a `components` folder would need to be created inside the `s
 Create the files in the components folder as seen above. `Header.js`, `SalesCars.js`, `AddCar.js`, `MyCar.js`. 
 These sections would be discussed later.
 
-Next up, we would be using useState to keep track of some variables through out the dapp. 
+Next up, we would be using `useState()` hook to keep track of some variables through out the dapp. 
 
 
 ```js
@@ -630,11 +630,11 @@ function App() {
 ...
 ```
 
-useState is a Hook in React that allows you to add state to functional components. It is a way to manage and update the state of a component. 
+`useState()` is a Hook in React that allows you to add state to functional components. It is a way to manage and update the state of a component. 
 
-useState returns an array with two elements: the current state, and a function to update it. The first argument passed to useState is the initial state, and the second argument is an optional callback function to run after the state is updated. ([Learn more about useState](https://reactjs.org/docs/hooks-state.html))
+`useState()` returns an array with two elements: the current state, and a function to update it. The first argument passed to `useState()` is the initial state, and the second argument is an optional callback function to run after the state is updated. ([Learn more about useState](https://reactjs.org/docs/hooks-state.html))
 
-The next task is to create an asynchronous function called connectCeloWallet that allows a user to connect to the Celo Blockchain and read the balance of their account. The function will perform several checks and actions to ensure that the user has the necessary tools and permissions to interact with the Celo Blockchain.
+The next task is to create an asynchronous function called `connectCeloWallet()` that allows a user to connect to the Celo Blockchain and read the balance of their account. The function will perform several checks and actions to ensure that the user has the necessary tools and permissions to interact with the Celo Blockchain.
 
 ```js
 ...
@@ -664,19 +664,19 @@ The next task is to create an asynchronous function called connectCeloWallet tha
 ```
 
 
-The first step is to check if the user has the CeloExtensionWallet installed by checking if the "window.celo" object exists. If it does not exist, the function will use the console to inform the user that they need to install the wallet.
+The first step is to check if the user has the CeloExtensionWallet installed by checking if the `window.celo` object exists. If it does not exist, the function will use the console to inform the user that they need to install the wallet.
 
-If the "window.celo" object does exist, a notification will be sent to the user in the console to approve this DApp and try the window.celo.enable() function. This will open a pop-up dialogue in the UI that asks for the user's permission to connect the DApp to the CeloExtensionWallet.
+If the `window.celo` object does exist, a notification will be sent to the user in the console to approve this DApp and try the `window.celo.enable()` function. This will open a pop-up dialogue in the UI that asks for the user's permission to connect the DApp to the CeloExtensionWallet.
 
 If an error is caught during this process, the user would be informed that they must approve the dialogue to use the DApp.
 
-After the user approves the DApp, create a web3 object using the window.celo object as the provider. This web3 object can then be used to create a new kit instance, which will be saved to the kit state. This kit instance will have the functionality to interact with the Celo Blockchain.
+After the user approves the DApp, create a `web3` object using the `window.celo` object as the provider. This `web3` object can then be used to create a new kit instance, which will be saved to the kit state. This kit instance will have the functionality to interact with the Celo Blockchain.
 
-You would then access the user's account by utilizing the web3 object and kit instance that have been created. 
+You would then access the user's account by utilizing the `web3` object and kit instance that have been created. 
 
-After creating the new kit instance, use the method kit.web3.eth.getAccounts() to get an array of the connected user's addresses. Use the first address from this array and set it as the default user address by using kit.defaultAccount. This will allow the address to be used globally in the DApp.
+After creating the new kit instance, use the method `kit.web3.eth.getAccounts()` to get an array of the connected user's addresses. Use the first address from this array and set it as the default user address by using `kit.defaultAccount`. This will allow the address to be used globally in the DApp.
 
-Now, create an asynchronous function called `getBalance` that retrieves the user's balance and updates the corresponding state variables
+Now, create an asynchronous function called `getBalance()` that retrieves the user's balance and updates the corresponding state variables
 
 ```js
   const getBalance = async () => {
@@ -693,14 +693,21 @@ Now, create an asynchronous function called `getBalance` that retrieves the user
 ```
 Start by calling the `kit.getTotalBalance(address)` method, passing in the user's address. This method returns the user's balance in the form of an object that contains the amounts of CELO and cUSD tokens. The returned balance is then stored in the `balance` variable.
 
-The next step is to extract the CELO and cUSD balance from the "balance" object by using the `.CELO` and `.cUSD` properties respectively. Then it's shifted the value by -ERC20_DECIMALS which is a way to represent the balance in terms of smaller units in our case 18 decimal places, and then it's converting the value to fixed 2 decimal points. These values are stored in the `celoBalance` and `USDBalance` variables.
+The next step is to extract the CELO and cUSD balance from the `balance` object by using the `.CELO` and `.cUSD` properties respectively. Then it's shifted the value by `-ERC20_DECIMALS` which is a way to represent the balance in terms of smaller units in our case 18 decimal places, and then it's converting the value to fixed 2 decimal points. These values are stored in the `celoBalance` and `USDBalance` variables.
 
-Next, create a contract instance by calling the "new kit.web3.eth.Contract(cardealer, contractAddress)" , with your abi and contract address (created earlier) as arguments.
+Next, create a contract instance by calling the `new kit.web3.eth.Contract(cardealer, contractAddress)`, with your ABI and contract address (created earlier) as arguments.
 
-Update the state by calling `setcontract(contract); setCeloBalance(celoBalance); setcUSDBalance(USDBalance);`. 
+Update the state by calling the following functions:
+
+```javascript
+setcontract(contract); 
+setCeloBalance(celoBalance); 
+setcUSDBalance(USDBalance);
+
+```
 
 
-Up next, create a function called `getCars` that retrieves the cars information from the smart contract and updates the corresponding state variables.
+Up next, create a function called `getCars()` that retrieves the cars information from the smart contract and updates the corresponding state variables.
 
 ```js
  const getCars = async function () {
@@ -744,11 +751,11 @@ For each iteration, the function creates a new promise called `_car`, which retr
 
 The `_car` promise is then pushed to the `_cars` array. After the loop is finished, wait for all promises in the `_cars` array to be resolved by calling `await Promise.all(_cars)`, this will make sure that all the cars have been retrieved before moving on. Then it's updating the state with the cars array, by calling `setCars(cars);`
 
-The next step is filtering the cars that have been bought by the user by checking the car.owner value and the isBought value and storing the result in _myCars variable, then it's updating the state with the _myCars variable.
+The next step is filtering the cars that have been bought by the user by checking the `car.owner` value and the `isBought` value and storing the result in `_myCars` variable, then it's updating the state with the `_myCars` variable.
 
 
 After creating these functions, you would need a way for them to be implemented in the application. In this case, the functions would need to be called every time the application starts. You would need to retrieve the balance and get the cars already created.
-For this, you would use the useEffect Hook.
+For this, you would use the `useEffect()` hook.
 
 ```js
   useEffect(() => {
@@ -770,11 +777,11 @@ For this, you would use the useEffect Hook.
   }, [contract]);
 ```
 
-The first useEffect hook runs the `connectCeloWallet()` function as a side-effect. we want the effect to run once when the component is rendered.
+The first `useEffect()` hook runs the `connectCeloWallet()` function as a side-effect. we want the effect to run once when the component is rendered.
 
-The second useEffect hook calls the `getBalance()` function earlier created only when the kit and address are valid. This prevents unwanted errors.
+The second `useEffect()` hook calls the `getBalance()` function earlier created only when the kit and address are valid. This prevents unwanted errors.
 
-The third useEffect hooks calls the `getCars()` function when a contract is available so the function can use the contract to find the cars available.
+The third `useEffect()` hooks calls the `getCars()` function when a contract is available so the function can use the contract to find the cars available.
 
 
 Next would be creating a function that allows users to add a car to the smart contract. You could call this function `addToCars()`
@@ -804,11 +811,11 @@ Next would be creating a function that allows users to add a car to the smart co
   }
 ```
 
-You start by creating a new BigNumber instance with the _price argument, and then it's shifting it by ERC20_DECIMALS, this is a way to represent the price in terms of smaller units. Then it's converting the value to a string and storing it in the "price" variable.
+You start by creating a new BigNumber instance with the `_price` argument, and then it's shifting it by `ERC20_DECIMALS`, this is a way to represent the price in terms of smaller units. Then it's converting the value to a string and storing it in the `price` variable.
 
-Then you use the `contract.methods.setCar(..)` method to add the car to the smart contract. You also use the "send" method, passing in the user's address as the "from" property. This sends the transaction to the smart contract and adds the car to the smart contract.
+Then you use the `contract.methods.setCar(..)` method to add the car to the smart contract. You also use the `send()` method, passing in the user's address as the `from` property. This sends the transaction to the smart contract and adds the car to the smart contract.
 
-If the function completes successfully, it calls the "getCars()" function to retrieve the updated list of cars from the smart contract. If an error occurs, it will be caught and logged in the console.
+If the function completes successfully, it calls the `getCars()` function to retrieve the updated list of cars from the smart contract. If an error occurs, it will be caught and logged in the console.
 
 
 After this function, we would add two functions which would be to initiate the buy and the sell function in our smart contract.
@@ -847,17 +854,17 @@ After this function, we would add two functions which would be to initiate the b
   };
 ```
 
-The "buyCar" function takes two arguments: _price, and _index. The function starts by creating a new cUSD contract instance using the ERC20 ABI and cUSD contract address. Then it creates a new BigNumber instance with the _price argument, and then it's shifting it by ERC20_DECIMALS, this is a way to represent the price in terms of smaller units. Then it's converting the value to a string and storing it in the "cost" variable.
+The `buyCar()` function takes two arguments: `_price`, and `_index`. The function starts by creating a new cUSD contract instance using the ERC20 ABI and cUSD contract address. Then it creates a new BigNumber instance with the `_price` argument, and then it's shifting it by ERC20_DECIMALS, this is a way to represent the price in terms of smaller units. Then it's converting the value to a string and storing it in the `cost` variable.
 
-The function then uses the "cUSDContract.methods.approve(contractAddress, cost)" method to approve the spending of cUSD tokens to the contract address, passing in the cost variable as an argument, and the user's address as the "from" property.
+The function then uses the `cUSDContract.methods.approve(contractAddress, cost)` method to approve the spending of cUSD tokens to the contract address, passing in the `cost` variable as an argument, and the user's address as the `from` property.
 
-The next step is using the "contract.methods.buyCar(_index)" method to buy the car on the smart contract, passing in the _index argument. And using the "send" method, passing in the user's address as the "from" property.
+The next step is using the `contract.methods.buyCar(_index)` method to buy the car on the smart contract, passing in the `_index` argument. And using the `send()` method, passing in the user's address as the `from` property.
 
 If the function completes successfully, it calls the `getBalance()` and `getCars()` functions to retrieve the updated balance and list of cars from the smart contract. If an error occurs, it will be caught and logged in the console.
 
-The "sellCar" function takes one argument: index, it's using the "contract.methods.sellCar(index)" method to make the car available for sale on the smart contract, passing in the index argument. And using the "send" method, passing in the user's address as the "from" property.
+The `sellCar()` function takes one argument: index, it's using the `contract.methods.sellCar(index)` method to make the car available for sale on the smart contract, passing in the index argument. And using the `send()` method, passing in the user's address as the `from()` property.
 
-If the function completes successfully, it calls the "getCars()" function to retrieve the updated list of cars from the smart contract. If an error occurs, it will be caught and logged in the console, and an alert message will appear.
+If the function completes successfully, it calls the `getCars()` function to retrieve the updated list of cars from the smart contract. If an error occurs, it will be caught and logged in the console, and an alert message will appear.
 
 
 Next up will be the return statement with the following components which we would implement soon.
@@ -933,7 +940,7 @@ export default Header
 
 ## SalesCars.js
 
-This would represent the cars which are for sale. It checks if the item is for sale using the properties passed from App.js. If the item is for sale, we would display the item. 
+This would represent the cars which are for sale. It checks if the item is for sale using the properties passed from `App.js`. If the item is for sale, we would display the item. 
 
 ```js
 
@@ -1030,7 +1037,7 @@ export default SalesCars;
 ```
 
 ## MyCar.js
-This component would be used to retrieve the user's bought  cars on the frontend
+This component would be used to retrieve the user's bought cars on the frontend
 
 ```js
 const MyCar = props => {
@@ -1100,7 +1107,7 @@ export default MyCar;
 ```
 
 ## AddCar.js
-This component is used to add a car to the smart contract. The convertToBool function is a helper function that is used to convert a string to boolean.
+This component is used to add a car to the smart contract. The `convertToBool()` function is a helper function that is used to convert a string to boolean.
 ```js
 import { useState } from 'react';
 
@@ -1184,10 +1191,10 @@ You can follow or use this project as a reference to edit yours and get the requ
 
 ## Conclusion
 
-Congratulations 🎉, you were able to build your fullstack dapp using solidity and react on the celo smart contract. Great JOB!!
+Congratulations 🎉, you were able to build your fullstack dapp using Solidity and React on the Celo blockchain. Great JOB!!
 
 ## Next steps
-You can challenge yourself by adding more functions and implementing them using react on the frontend. You can also look at various celo smart contracts and see if you can build a dapp using react
+You can challenge yourself by adding more functions and implementing them using react on the frontend. You can also look at various celo smart contracts and see if you can build a dapp using React
 
 ## About the Author
 Daniel Ogbuti is a web3 developer with a passion for teaching as well as learning. I would love to connect on Twitter @daniel_ogbuti
