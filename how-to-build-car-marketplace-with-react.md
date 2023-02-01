@@ -13,6 +13,25 @@ slug: /tutorials/how-to-build-car-marketplace-dapp-with-react
 
 # How to Build a Car Marketplace dapp using React
 
+## Table of Contents
+
+  * [Introduction](#introduction)
+  * [Prerequisites](#prerequisites)
+  * [Requirements](#requirements)
+  * [Let us Begin](#let-us-begin)
+  * [Smart Contract Development](#smart-contract-development)
+    + [Contract Deployment](#contract-deployment)
+  * [Frontend Development](#frontend-development)
+    + [The HTML part of the Dapp](#the-html-part-of-the-dapp)
+    + [App.js](#appjs)
+    + [Header.js](#headerjs)
+    + [SalesCars.js](#salescarsjs)
+    + [MyCar.js](#mycarjs)
+    + [AddCar.js](#addcarjs)
+  * [Conclusion](#conclusion)
+  * [Next steps](#next-steps)
+  * [About the Author](#about-the-author)
+
 ## Introduction
 Celo blockchain enables fast, secure, and low-cost financial transactions. It is built on top of the Ethereum Virtual Machine (EVM), which is a standardized environment for running smart contracts (self-executing code that can be used to facilitate, verify, and enforce the negotiation or performance of a contract). 
 One of the main features of Celo is its use of proof-of-stake (PoS) consensus, which means that the network is secured by a group of "validators" who stake (or pledge) a certain amount of the platform's native cryptocurrency  in order to participate in the validation of transactions. 
@@ -34,7 +53,7 @@ This tutorials exposes you to how building a simple fullstack dapp (decentralize
 - **[Remix](https://remix.ethereum.org)**
 - **[Celo Extension Wallet](https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmpmkbdnfelcpgckmpcaemjcdh?hl=en)**.
 
-## Let's Begin
+## Let us Begin
 
 Here is a screenshot of what our dapp would look like
 
@@ -369,7 +388,7 @@ contract CarDealer{
 } 
 ```
 
-## Contract Deployment
+### Contract Deployment
 
 To deploy the contract, we would need:
 1. [CeloExtensionWallet](https://chrome.google.com/webstore/detail/celoextensionwallet/kkilomkmpmkbdnfelcpgckmpcaemjcdh?hl=en)
@@ -455,7 +474,7 @@ This should open a vscode window with the cardealer directory.
     npm start
   ```
 
-## The HTML part of the Dapp
+### The HTML part of the Dapp
 In the next step of the tutorial, you will begin building the foundation of your decentralized application (DApp) using HTML.
 
 First off, you would add the following folder name `assets2` to the public folder. This has some CSS properties and images that you would be using to enable you build your dapp swiftly. ([Download it here](https://github.com/dahnny/CeloDealer/tree/main/public/assets2))
@@ -553,7 +572,7 @@ Up next, you would add the body of the html and add specific script tags which w
   </html>
 ```
 
-## App.js
+### App.js
 The `App.js` file is the starting point for the React frontend of the application. The App component is responsible for the layout and organization of the other components. It includes the App component, which acts as a container for all other components. 
 At the beginning of the `App.js` file, necessary libraries, components and hooks are imported.
 
@@ -882,7 +901,7 @@ Next up will be the return statement with the following components which we woul
   );
 ```
 
-## Header.js
+### Header.js
 
 For this component, we would display the CUSD and CELO balance and also the design. Copy the code below!
 
@@ -938,7 +957,7 @@ export default Header
 ```
 
 
-## SalesCars.js
+### SalesCars.js
 
 This would represent the cars which are for sale. It checks if the item is for sale using the properties passed from `App.js`. If the item is for sale, we would display the item. 
 
@@ -1036,7 +1055,7 @@ const SalesCars = props => {
 export default SalesCars;
 ```
 
-## MyCar.js
+### MyCar.js
 This component would be used to retrieve the user's bought cars on the frontend
 
 ```js
@@ -1106,7 +1125,7 @@ const MyCar = props => {
 export default MyCar;
 ```
 
-## AddCar.js
+### AddCar.js
 This component is used to add a car to the smart contract. The `convertToBool()` function is a helper function that is used to convert a string to boolean.
 ```js
 import { useState } from 'react';
